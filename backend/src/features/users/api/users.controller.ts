@@ -1,16 +1,48 @@
+import { Response } from "express";
 import usersService, { UsersService } from "../services/users.service";
+import { CustomRequest } from "../../../types/requests";
+import { UserDto } from "../types/user.dto";
 
 export type UsersController = {
-  bulk(): void;
+  getAll(re: CustomRequest<UserDto>, res: Response): void;
+  bulkCreate(re: CustomRequest<UserDto>, res: Response): void;
 }
 
 const makeUsersController = (service: UsersService): UsersController => {
-  const bulk = () => {
-    console.log('works');
+  const getAll = (req: CustomRequest<UserDto>, res: Response) => {
+    service.getAll()
+      .then((data) => {
+        res.status(200).send({ data: data });
+      })
+      .catch((error) => {
+        res.status(400).send({ error: 'Error getting data' });
+      })
+
+  }
+
+  const bulkCreate = (req: CustomRequest<UserDto>, res: Response) => {
+    if (!req.fileContent) {
+      res.status(404).send({ error: 'Error, could not get the csv serialized data'});
+      return;
+    };
+
+    service.bulkSave(req.fileContent).then((saved) => {
+      if (saved) {
+        res.status(201);
+      } else {
+        res.status(400).send({ error: 'Could not load data'});
+      }
+
+      res.end();
+    }).catch((error) => {
+      res.status(500).send({ error: 'Internal error'});
+      res.end();
+    });
   }
 
   return {
-    bulk
+    getAll,
+    bulkCreate,
   }
 }
 
