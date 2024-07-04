@@ -1,6 +1,7 @@
 import express from 'express';
 import usersController from './src/features/users/api/users.controller';
 import csvMiddleware from './src/middlewares/csv.middleware';
+import validateContentType from './src/validators/fileContent.validator';
 
 const router = express.Router();
 
@@ -8,6 +9,6 @@ const router = express.Router();
 
 // users
 router.get('/users', usersController.getAll);
-router.post('/users/bulk', csvMiddleware.user, usersController.bulkCreate);
+router.post('/users/bulk', validateContentType, csvMiddleware.user, usersController.bulkCreate);
 
 export default router;

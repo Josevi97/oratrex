@@ -1,8 +1,9 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import { CustomRequest } from "../types/requests";
 import { UserFields } from "../features/users/constants/user.fields";
 import { UserDto } from "../features/users/types/user.dto";
+import { header } from "express-validator";
 
 type Header = { [key: string]: string };
 
@@ -27,12 +28,12 @@ const csvMiddleware = <T>(headers: Header) => {
     upload.single('file')(req, res, (error)  => {
       if (error) {
         console.error('Error getting file', error);
-        return res.status(400).send({ error: error.message });
+        return res.status(400).json({ error: error.message });
       }
 
       if (!req.file) {
         console.error('File not provided');
-        return res.status(400).send({ error: 'File not provided'});
+        return res.status(400).json({ error: 'File not provided'});
       }
 
       const processed = req.file.buffer.toString('utf-8');

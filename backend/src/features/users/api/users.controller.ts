@@ -12,17 +12,17 @@ const makeUsersController = (service: UsersService): UsersController => {
   const getAll = (req: CustomRequest<UserDto>, res: Response) => {
     service.getAll()
       .then((data) => {
-        res.status(200).send({ data: data });
+        res.status(200).json({ data: data });
       })
       .catch((error) => {
-        res.status(400).send({ error: 'Error getting data' });
+        res.status(400).json({ error: 'Error getting data' });
       })
 
   }
 
   const bulkCreate = (req: CustomRequest<UserDto>, res: Response) => {
     if (!req.fileContent) {
-      res.status(404).send({ error: 'Error, could not get the csv serialized data'});
+      res.status(404).json({ error: 'Error, could not get the csv serialized data'});
       return;
     };
 
@@ -30,12 +30,12 @@ const makeUsersController = (service: UsersService): UsersController => {
       if (saved) {
         res.status(201);
       } else {
-        res.status(400).send({ error: 'Could not load data'});
+        res.status(400).json({ error: 'Could not load data'});
       }
 
       res.end();
     }).catch((error) => {
-      res.status(500).send({ error: 'Internal error'});
+      res.status(500).json({ error: 'Internal error'});
       res.end();
     });
   }
