@@ -42,25 +42,23 @@ const makeUsersRepository = (): UsersRepository => {
   }
 
   const bulkSave = async (users: UserDto[]) => {
-    return new Promise<boolean>((resolve, _) => {
-      UserEntity.bulkCreate(users, {
-        ignoreDuplicates: true,
-        fields: [
-          UserFields.name,
-          UserFields.address,
-          UserFields.username,
-          UserFields.password,
-          UserFields.code
-        ]},
-      )
-        .then(() => resolve(true))
-        .catch(() => resolve(false))
-    });
+    return UserEntity.bulkCreate(users, {
+      ignoreDuplicates: true,
+      fields: [
+        UserFields.name,
+        UserFields.address,
+        UserFields.username,
+        UserFields.password,
+        UserFields.code
+      ]},
+    )
+      .then(() => true)
+      .catch(() => false)
   }
 
   // This is only being used for testing
   const deleteAll = async () => {
-    UserEntity.truncate();
+    return UserEntity.truncate();
   }
 
   return {

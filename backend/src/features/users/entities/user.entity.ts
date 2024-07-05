@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import db from "../../../../database";
+import db from "../../../database";
 import { User } from "../types/user";
 
 type UserAttributes = User & { id: string }

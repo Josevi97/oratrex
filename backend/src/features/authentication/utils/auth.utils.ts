@@ -1,5 +1,6 @@
-import { PRIVATE_KEY } from './../../../../config';
+import { PRIVATE_KEY } from '../../../config';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const authenticationUtils = () => {
   const sign = (id: string) => {

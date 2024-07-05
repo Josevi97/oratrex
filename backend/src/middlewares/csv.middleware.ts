@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import multer from "multer";
 import { CustomRequest } from "../types/requests";
 import { UserFields } from "../features/users/constants/user.fields";
 import { UserDto } from "../features/users/types/user.dto";
-import { header } from "express-validator";
 
 type Header = { [key: string]: string };
 
@@ -17,10 +16,18 @@ const processCsv = (headers: Header, processed: string) => {
   const header = content[0].split(';');
   const body = content.slice(1).map(data => data.split(';'));
 
-  return body.map(data => {
-    const d = data.map((d: string, i: number) => [headers[header[i].toLowerCase().trim()], d]);
-    return Object.fromEntries(d);
-  });
+  return body
+    .map(data => {
+      const d = data.map((d: string, i: number) => {
+        const _header = header[i].toLowerCase();
+        const finalHeader = headers[_header.toLowerCase()]?.trim().toLowerCase();
+
+        return [finalHeader, d];
+      });
+
+      return Object.fromEntries(d);
+    })
+    .filter(data => Object.keys(data).every(key => key != 'undefined'));
 }
 
 const csvMiddleware = <T>(headers: Header) => {

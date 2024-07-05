@@ -10,8 +10,8 @@ export type AuthService = {
 const makeAuthService = (usersService: UsersService): AuthService => {
   const login = async (credentials: AuthDto): Promise<Auth | null> => {
     const { username, password } = credentials;
-    const user = await usersService.getByUsernameAndPassword(username, password);
 
+    const user = await usersService.getByUsernameAndPassword(username, password);
     if (!user) return null;
 
     const date = new Date();

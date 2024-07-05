@@ -5,12 +5,12 @@ import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
 import bodyParser from 'body-parser';
 
-import { SERVER_PORT } from './config';
+import { SERVER_PORT } from './src/config';
 import router from './router';
-import database from "./database";
+import database from "./src/database";
 
 // const csrfProtection = csrf({ cookie: true });
-const app = express();
+export const app = express();
 
 database.authenticate()
   .then(() => console.log('Database connected successful.'))

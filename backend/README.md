@@ -3,8 +3,8 @@ Prueba técnica de backend para ORATREX.
 
 ## Database connection
 Para los datos de la conexión, he utilizado dotenv, por lo que el archivo .env no está incluido en el repositorio. Solo estarán
-aquellos datos dependientes de la máquina host. El puerto del servidor está establecido por defecto en el archivo config.ts. La existencia
-de este archivo es para tener los datos del .env tipados, además de un facil acceso a los mismos.
+aquellos datos dependientes de la máquina host. El puerto del servidor está establecido por defecto en el archivo config.ts.
+La existencia de este archivo es para tener los datos del .env tipados, además de un facil acceso a los mismos.
 
 He decidido utilizar sequalizer como ORM de la base de datos. Lo suyo sería crear una capa por encima para poder
 reemplazar el ORM por cualquier otro.
@@ -35,3 +35,12 @@ Por otro lado, he centralizado todo lo posible, aquellos modelos del sequalize, 
 Importante, el código QR se está inyectando directamente en endpoint "session". En este caso no existe un endpoint para
 ver un usuario únicamente. La idea sería poder escalar esto, de forma que se pueda elegir si se necesita el código QR según
 convenga (/users, /users/:id, /auth/session, etc...)
+
+También he utilizado programación funcional todo lo que he podido. He intentado evitar mutar datos ya existentes, además de
+evitar posibles side effect.
+
+## Tests
+Las funcionalidades mas importantes a mi modo de ver son el procesado del csv, como asegurarme de que se guarda la
+contraseña hasheada en bbdd.
+
+Por ello, he añadido 2 pruebas unitarias: csv.middleware.processCsv, users.service.encryptUsers
