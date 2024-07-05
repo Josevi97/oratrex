@@ -1,3 +1,6 @@
+## Introduction
+Prueba técnica de backend para ORATREX.
+
 ## Database connection
 Para los datos de la conexión, he utilizado dotenv, por lo que el archivo .env no está incluido en el repositorio. Solo estarán
 aquellos datos dependientes de la máquina host. El puerto del servidor está establecido por defecto en el archivo config.ts. La existencia
@@ -23,3 +26,12 @@ Así pues, el flujo sería el siguiente =>
 5. Los servicios implementarán 1 o varios repositorios según hagan falta, los cuales serán la capa que se comunicará con la bbdd.
 6. errores encapsulados en la capa de repositorios, de manera que las capas controlador/servicio no se deberían de ver afectadas por
 ninǵun error inesperado.
+
+## Patterns
+He utilizado High order functions según veía necesario, para tratar de "decorar" las funciones con propiedades específicas.
+Un ejemplo de ello sería csv.middleware y encrypt.middleware, aunqeu este último he decidido no utilizarlo finalmente.
+
+Por otro lado, he centralizado todo lo posible, aquellos modelos del sequalize, dentro de la capa repositorio.
+Importante, el código QR se está inyectando directamente en endpoint "session". En este caso no existe un endpoint para
+ver un usuario únicamente. La idea sería poder escalar esto, de forma que se pueda elegir si se necesita el código QR según
+convenga (/users, /users/:id, /auth/session, etc...)
