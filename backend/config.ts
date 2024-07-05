@@ -7,3 +7,5 @@ export const DATABASE_PORT = process.env.DATABASE_PORT;
 export const DATABASE_NAME = process.env.DATABASE_NAME;
 
 export const SERVER_PORT = 3000;
+
+export const PRIVATE_KEY = 'oratrex'; /* Should be in .env */

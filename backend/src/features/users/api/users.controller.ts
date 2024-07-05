@@ -1,11 +1,12 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import usersService, { UsersService } from "../services/users.service";
 import { CustomRequest } from "../../../types/requests";
 import { UserDto } from "../types/user.dto";
 
 export type UsersController = {
-  getAll(re: CustomRequest<UserDto>, res: Response): void;
-  bulkCreate(re: CustomRequest<UserDto>, res: Response): void;
+  getAll(req: Request, res: Response): void;
+  bulkCreate(req: CustomRequest<UserDto>, res: Response): void;
+  deleteAll(req: Request, res: Response): void;
 }
 
 const makeUsersController = (service: UsersService): UsersController => {
@@ -35,14 +36,27 @@ const makeUsersController = (service: UsersService): UsersController => {
 
       res.end();
     }).catch((error) => {
-      res.status(500).json({ error: 'Internal error'});
+      res.status(500).json({ error: 'Internal error, something weird happened'});
       res.end();
     });
+  }
+
+  const deleteAll = (req: Request, res: Response) => {
+    service.deleteAll()
+      .then(() => {
+        res.status(201);
+        res.end();
+      })
+      .catch(() => {
+        res.status(500).json({ error: 'Internal error, something weird happened'});
+        res.end();
+      })
   }
 
   return {
     getAll,
     bulkCreate,
+    deleteAll,
   }
 }
 
