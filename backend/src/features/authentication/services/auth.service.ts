@@ -1,35 +1,30 @@
+import { Auth } from '../types/auth';
 import { AuthDto } from '../types/auth.dto';
 import authenticationUtils from '../utils/auth.utils';
 import usersService, { UsersService } from './../../users/services/users.service';
 
 export type AuthService = {
-  login(credentials: AuthDto): Promise<any>;
-  session(): Promise<any>;
+  login(credentials: AuthDto): Promise<Auth | null>;
 }
 
 const makeAuthService = (usersService: UsersService): AuthService => {
-  const login = async (credentials: AuthDto) => {
+  const login = async (credentials: AuthDto): Promise<Auth | null> => {
     const { username, password } = credentials;
     const user = await usersService.getByUsernameAndPassword(username, password);
 
     if (!user) return null;
 
     const date = new Date();
-    const access_token = authenticationUtils.sign(user.id);
+    const accessToken = authenticationUtils.sign(user.id);
 
     return {
-      access_token,
-      expires_at: date,
+      accessToken,
+      expiresAt: date,
     }
-  }
-
-  const session = async () => {
-
   }
 
   return {
     login,
-    session,
   }
 }
 

@@ -1,33 +1,56 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import db from "../../../../database";
-import { UserFields } from "../constants/user.fields";
+import { User } from "../types/user";
 
-const UserEntity = db.define('User', {
-  [UserFields.name]: {
-    type: DataTypes.STRING,
-    allowNull: false,
+type UserAttributes = User & { id: string }
+type UserCreationAttributes = UserAttributes;
+
+class UserEntity extends Model<UserAttributes, Optional<UserCreationAttributes, 'id'>> {
+  declare id: string;
+  declare name: string;
+  declare address: string;
+  declare username: string;
+  declare password: string;
+  declare code: string;
+}
+
+UserEntity.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  [UserFields.address]: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  [UserFields.username]: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false,
-  },
-  [UserFields.password]: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  [UserFields.code]: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  {
+    tableName: 'users',
+    sequelize: db,
   }
-});
+)
 
-db.sync()
-  .then(() => 'Sequalize sync completed')
+UserEntity.sync()
+  .then(() => 'User table recreated')
   .catch(() => 'Error synchronizing database');
 
 export default UserEntity;

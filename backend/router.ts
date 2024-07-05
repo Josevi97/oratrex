@@ -13,8 +13,8 @@ router.post('/auth', authValidator, authController.login);
 router.get('/auth/session', authMiddleware, authController.session);
 
 // users
-// router.get('/users', usersController.getAll);
+router.get('/users', authMiddleware, usersController.getAll);
 router.post('/users/bulk', validateContentType, csvMiddleware.user, usersController.bulkCreate);
-// router.delete('/users', usersController.deleteAll);
+router.delete('/users', usersController.deleteAll);
 
 export default router;

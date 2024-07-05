@@ -1,30 +1,37 @@
 import bcrypt from 'bcrypt';
+import QRCode from 'qrcode';
 
 import usersRepository, { UsersRepository } from "../repositories/users.repository";
 import { UserDto } from "../types/user.dto";
+import { User } from '../types/user';
 
 export type UsersService = {
-  getAll(): Promise<any[]>;
-  getById(id: string): Promise<any>;
-  getByUsernameAndPassword(username: string, password: string): Promise<any>
+  getAll(): Promise<User[]>;
+  getById(id: string): Promise<User | null>;
+  getByUsernameAndPassword(username: string, password: string): Promise<User | null>
+
   bulkSave(users: UserDto[]): Promise<boolean>;
   deleteAll(): Promise<void>;
 }
 
 const makeUsersService = (repository: UsersRepository): UsersService => {
-  const getAll = async () => {
+  const getAll = async (): Promise<User[]> => {
     return repository.getAll();
   }
 
-  const getById = async (id: string) => {
-    return repository.getById(id);
+  const getById = async (id: string): Promise<User | null> => {
+    const user = await repository.getById(id);
+    if (!user) return null;
+
+    const qr = await QRCode.toDataURL(user.code);
+    return { ...user, qr };
   }
 
-  const getByUsernameAndPassword = async (username: string, password: string) => {
+  const getByUsernameAndPassword = async (username: string, password: string): Promise<User | null> => {
     const user = await repository.getByUsername(username);
-    const match = !!(await bcrypt.compare(password, user.password));
+    if (!user) return null;
 
-    return match ? user : null;
+    return !!(await bcrypt.compare(password, user.password)) ? user : null;
   }
 
   const bulkSave = async (users: UserDto[]) => {
