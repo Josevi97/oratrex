@@ -45,7 +45,7 @@ const makeReducer = <T extends object>() => {
 };
 
 const useApiGet = <T extends object>(
-  resource: string,
+  resource: string[],
   config?: AxiosRequestConfig<unknown>
 ) => {
   const { state: authState } = useAuth();
@@ -61,7 +61,7 @@ const useApiGet = <T extends object>(
     dispatch({ type: 'loading' });
 
     apiService
-      .get<T>(resource, {
+      .get<T>(resource.join('/'), {
         ...config,
         headers: {
           ...config?.headers,

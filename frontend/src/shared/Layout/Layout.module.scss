@@ -1,0 +1,45 @@
+@import "@styles/variables";
+
+.container {
+  margin: auto;
+
+  @media screen and (min-width: $screen-sm) {
+    width: 90%;
+  }
+
+  @media screen and (min-width: $screen-md) {
+    width: 70%;
+  }
+
+  @media screen and (min-width: $screen-lg) {
+    width: 60%;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    width: $screen-xl;
+  }
+}
+
+.container .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px;
+
+  .logo {
+    pointer-events: none;
+    font-size: 1.3em;
+  }
+
+  button {
+    padding: 15px 25px;
+    background-color: $primary-color;
+    border: none;
+    outline: none;
+    color: white;
+
+    border-radius: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}

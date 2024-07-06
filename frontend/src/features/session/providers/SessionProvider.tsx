@@ -21,6 +21,8 @@ const initialState: State = {
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'load':
+      return { ...state, user: action.payload.user };
     default:
       throw new Error('Unrecognized action type');
   }
@@ -39,21 +41,16 @@ const SessionProvider = (props: SessionProviderProps) => {
 
   const { data, isLoading, isSuccess, hasError } = useApiSession();
 
-  const load = (user: User) => dispatch({ type: 'load', payload: { user } });
-
   const context = {
     state,
   };
 
   useEffect(() => {
-    if (!isLoading) return;
-
+    if (isLoading) return;
     if (isSuccess && data) {
-      load(data);
+      dispatch({ type: 'load', payload: { user: data } });
     }
   }, [data, isSuccess, isLoading]);
-
-  console.log(data);
 
   return (
     <Context.Provider value={context}>

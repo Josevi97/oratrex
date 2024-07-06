@@ -1,0 +1,47 @@
+@import "@styles/variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 25px;
+  gap: 50px;
+
+  text-align: center;
+  margin-top: 40px;
+}
+
+.container .header {
+  font-size: 2em;
+
+  @media screen and (min-width: $screen-md) {
+    font-size: 4em;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    font-size: 6em;
+  }
+}
+
+.container .event {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .address {
+    color: $primary-color;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+}
+
+.container .codeQr {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .code {
+    font-size: 1.4em;
+  }
+}

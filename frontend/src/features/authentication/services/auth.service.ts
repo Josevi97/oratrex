@@ -8,7 +8,7 @@ const saveCookie = (auth: Auth) => {
   document.cookie = `${cookieKey}=${encodeURIComponent(JSON.stringify(auth))};expires=${date}`;
 };
 
-const getCookie = (): Auth | null => {
+const getCookies = () => {
   const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
   if (!cookies.length) return null;
 
@@ -16,7 +16,14 @@ const getCookie = (): Auth | null => {
     cookies.map((cookie) => cookie.split('='))
   );
 
-  const auth = formattedCookies[cookieKey];
+  return formattedCookies;
+};
+
+const getCookie = (): Auth | null => {
+  const cookies = getCookies();
+  if (!cookies) return null;
+
+  const auth = cookies[cookieKey];
   if (!auth) return null;
 
   return JSON.parse(decodeURIComponent(auth));
@@ -48,7 +55,10 @@ const authService = (): AuthService => {
 
   const getSession = (): Auth | null => getCookie();
 
-  const logout = () => {};
+  const logout = () => {
+    const date = new Date();
+    document.cookie = `${cookieKey}=;expires=${date}`;
+  };
 
   return {
     login,
