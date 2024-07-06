@@ -1,0 +1,11 @@
+{
+  "name": "oratrex",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install": "cd backend && npm install && cd ../frontend && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
