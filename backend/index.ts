@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// app.use(csrfProtection);
 app.use('/api', router);
 
 app.listen(SERVER_PORT, () => {
