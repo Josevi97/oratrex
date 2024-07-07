@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "install": "cd backend && npm install && cd ../frontend && npm install",
-    "dev": "cd backend && npm start & cd ../frontend && npm run dev & cd .."
+    "dev": "./bin/execute.sh",
+    "test": "cd backend && npm run test && cd .."
   },
   "keywords": [],
   "author": "",
