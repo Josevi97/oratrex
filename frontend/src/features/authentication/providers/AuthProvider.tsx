@@ -37,7 +37,7 @@ const reducer = (state: State, action: Action): State => {
 const Context = createContext({
   state: initialState,
   actions: {
-    login: (): Promise<void> => {
+    login: (_: string, __: string): Promise<boolean> => {
       throw new Error('Unimplemented function');
     },
     logout: (): Promise<void> => {
@@ -53,15 +53,17 @@ type AuthProvider = {
 const AuthProvider = (props: AuthProvider) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const login = async () => {
-    const username = 'kathleen34';
-    const password = 'aaa2848c13da';
-
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<boolean> => {
     const auth = await authService.login(username, password);
 
     if (auth) {
       dispatch({ type: 'authorized', payload: { auth: auth } });
     }
+
+    return !!auth;
   };
 
   const logout = async () => {

@@ -2,14 +2,18 @@ import { useEffect } from 'react';
 import { useAuth } from '../../features/authentication/providers/AuthProvider';
 import styles from './LoginPage.module.scss';
 import { useNavigate } from 'react-router-dom';
+import LoginForm from './LoginForm/LoginForm';
 
 const LoginPage = () => {
   const { state: authState, actions: authActions } = useAuth();
 
   const navigate = useNavigate();
 
-  const login = () => {
-    authActions.login();
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<boolean> => {
+    return authActions.login(username, password);
   };
 
   useEffect(() => {
@@ -20,7 +24,9 @@ const LoginPage = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={login}>Login</button>
+      <div className={styles.content}>
+        <LoginForm onSubmit={login} />
+      </div>
     </div>
   );
 };

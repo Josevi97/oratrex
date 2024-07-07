@@ -1,0 +1,23 @@
+@import "@styles/variables";
+
+@mixin wrapper {
+  margin: auto;
+
+  height: 100vh;
+
+  @media screen and (min-width: $screen-sm) {
+    width: 90%;
+  }
+
+  @media screen and (min-width: $screen-md) {
+    width: 70%;
+  }
+
+  @media screen and (min-width: $screen-lg) {
+    width: 60%;
+  }
+
+  @media screen and (min-width: $screen-xl) {
+    width: $screen-xl;
+  }
+}

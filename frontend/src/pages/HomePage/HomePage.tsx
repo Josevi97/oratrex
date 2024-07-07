@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
-import styles from './HomePage.module.scss';
 import apiService from '../../core/api/services/api.service';
+
+import styles from './HomePage.module.scss';
 
 type State = {
   isLoading: boolean;

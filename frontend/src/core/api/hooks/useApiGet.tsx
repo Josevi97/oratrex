@@ -25,10 +25,15 @@ type Action<T> =
     };
 
 const makeReducer = <T extends object>() => {
-  return (state: State<T>, action: Action<T>): State<T> => {
+  return (_: State<T>, action: Action<T>): State<T> => {
     switch (action.type) {
       case 'loading':
-        return { ...state, isLoading: false, isSuccess: true, hasError: false };
+        return {
+          isLoading: false,
+          isSuccess: true,
+          hasError: false,
+          data: null,
+        };
       case 'success':
         return {
           isLoading: false,
@@ -37,7 +42,12 @@ const makeReducer = <T extends object>() => {
           data: action.payload.data,
         };
       case 'error':
-        return { ...state, isLoading: false, isSuccess: false, hasError: true };
+        return {
+          isLoading: false,
+          isSuccess: false,
+          hasError: true,
+          data: null,
+        };
       default:
         throw new Error('Unrecognized action type');
     }
