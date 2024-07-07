@@ -40,9 +40,9 @@ const apiService = (): ApiService => {
         .post<{ data: T }>(resource, data, {
           ...config,
           headers: {
-            ...config?.headers,
             'Content-Type': 'application/json',
             'CSRF-Token': csrfService.loadCsrf()?.csrfToken,
+            ...config?.headers,
           },
         })
         .then((result) => resolve({ data: result.data.data }))

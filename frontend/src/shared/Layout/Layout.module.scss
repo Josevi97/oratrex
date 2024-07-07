@@ -1,7 +1,11 @@
 @import "@styles/variables";
 
 .container {
+  display: flex;
+  flex-direction: column;
   margin: auto;
+
+  height: 100vh;
 
   @media screen and (min-width: $screen-sm) {
     width: 90%;
@@ -31,15 +35,28 @@
     font-size: 1.3em;
   }
 
-  button {
-    padding: 15px 25px;
-    background-color: $primary-color;
+  button:has(.logo) {
+    background-color: transparent;
     border: none;
     outline: none;
-    color: white;
-
-    border-radius: 6px;
-    font-weight: bold;
-    text-transform: uppercase;
   }
+
+  .leftHeader {
+    display: flex;
+    gap: 30px;
+  }
+}
+
+button.button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: $primary-color;
+
+  font-weight: bold;
+}
+
+.content {
+  padding: 25px;
+  flex-grow: 1;
 }

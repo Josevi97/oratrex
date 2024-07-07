@@ -1,47 +1,49 @@
-@import "@styles/variables";
+@import '@styles/variables';
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  padding: 25px;
+  justify-content: center;
   gap: 50px;
 
+  .spacer {
+    height: 250px;
+  }
+}
+
+.navigateToUser * {
+  font-size: 4em;
+  text-decoration: none;
+  color: $primary-color;
+}
+
+.button {
+  cursor: pointer;
+  padding: 35px 70px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+
+  border: none;
+  border-radius: 6px;
+  outline: none;
   text-align: center;
-  margin-top: 40px;
 }
 
-.container .header {
-  font-size: 2em;
-
-  @media screen and (min-width: $screen-md) {
-    font-size: 4em;
-  }
-
-  @media screen and (min-width: $screen-xl) {
-    font-size: 6em;
-  }
+.button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
 }
 
-.container .event {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  .address {
-    color: $primary-color;
-    font-size: 1.5em;
-    font-weight: bold;
-  }
+.loadCsv {
+  background-color: $primary-color;
 }
 
-.container .codeQr {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.saveCsv {
+  background-color: $secondary-color;
+}
 
-  .code {
-    font-size: 1.4em;
-  }
+input.loadCsvInput {
+  display: none;
 }

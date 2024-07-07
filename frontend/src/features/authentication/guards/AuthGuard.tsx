@@ -1,7 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
 import SessionProvider from '../../session/providers/SessionProvider';
-import Layout from '../../../shared/Layout/Layout';
 
 const AuthGuard = () => {
   const { state: authState } = useAuth();
@@ -11,7 +10,7 @@ const AuthGuard = () => {
 
   return (
     <SessionProvider>
-      <Layout>{<Outlet />}</Layout>
+      <Outlet />
     </SessionProvider>
   );
 };
