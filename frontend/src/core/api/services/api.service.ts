@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import csrfService from '../../csrf/services/csrf.service';
 
 type ApiService = {
   get<T>(
@@ -36,7 +37,14 @@ const apiService = (): ApiService => {
   ): Promise<{ data: T }> => {
     return new Promise((resolve, reject) => {
       instance
-        .post<{ data: T }>(resource, data, config)
+        .post<{ data: T }>(resource, data, {
+          ...config,
+          headers: {
+            ...config?.headers,
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfService.loadCsrf()?.csrfToken,
+          },
+        })
         .then((result) => resolve({ data: result.data.data }))
         .catch((error) => reject(error));
     });

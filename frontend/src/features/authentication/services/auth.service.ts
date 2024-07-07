@@ -1,33 +1,8 @@
 import { Auth } from '../types/auth';
 import apiService from '../../../core/api/services/api.service';
+import cookiesService from '../../../core/cookies/services/cookies.service';
 
 const cookieKey = 'auth';
-
-const saveCookie = (auth: Auth) => {
-  const date = new Date(auth.expiresAt);
-  document.cookie = `${cookieKey}=${encodeURIComponent(JSON.stringify(auth))};expires=${date}`;
-};
-
-const getCookies = () => {
-  const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
-  if (!cookies.length) return null;
-
-  const formattedCookies: { [key: string]: string } = Object.fromEntries(
-    cookies.map((cookie) => cookie.split('='))
-  );
-
-  return formattedCookies;
-};
-
-const getCookie = (): Auth | null => {
-  const cookies = getCookies();
-  if (!cookies) return null;
-
-  const auth = cookies[cookieKey];
-  if (!auth) return null;
-
-  return JSON.parse(decodeURIComponent(auth));
-};
 
 type AuthService = {
   login(username: string, password: string): Promise<Auth | null>;
@@ -41,19 +16,18 @@ const authService = (): AuthService => {
     password: string
   ): Promise<Auth | null> => {
     const data = { username, password };
-    const response = await apiService.post<Auth>('auth', data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+
+    const response = await apiService.post<Auth>('auth', data);
 
     const auth = response.data;
-    saveCookie(auth);
+    cookiesService.saveCookie(cookieKey, auth, new Date(auth.expiresAt));
 
     return response.data;
   };
 
-  const getSession = (): Auth | null => getCookie();
+  const getSession = (): Auth | null => {
+    return cookiesService.getCookie<Auth>(cookieKey);
+  };
 
   const logout = () => {
     const date = new Date();

@@ -13,14 +13,14 @@ const processCsv = (headers: Header, processed: string) => {
 
   if (content.length <= 0) return [];
 
-  const header = content[0].split(';');
+  const header = content[0].split(';').map(h => h.toLowerCase());
   const body = content.slice(1).map(data => data.split(';'));
 
   return body
     .map(data => {
       const d = data.map((d: string, i: number) => {
-        const _header = header[i].toLowerCase();
-        const finalHeader = headers[_header.toLowerCase()]?.trim().toLowerCase();
+        const _header = header[i].trim();
+        const finalHeader = headers[_header]?.trim().toLowerCase();
 
         return [finalHeader, d];
       });

@@ -68,9 +68,9 @@ const useApiGet = <T extends object>(
           Authorization: `Bearer ${authState.auth?.accessToken}`,
         },
       })
-      .then((result) =>
-        dispatch({ type: 'success', payload: { data: result.data } })
-      )
+      .then((result) => {
+        dispatch({ type: 'success', payload: { data: result.data } });
+      })
       .catch(() => dispatch({ type: 'error' }));
   }, []);
 

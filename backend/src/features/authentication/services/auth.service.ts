@@ -15,6 +15,8 @@ const makeAuthService = (usersService: UsersService): AuthService => {
     if (!user) return null;
 
     const date = new Date();
+    date.setDate(date.getDate() + 15);
+
     const accessToken = authenticationUtils.sign(user.id);
 
     return {

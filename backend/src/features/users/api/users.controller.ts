@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import usersService, { UsersService } from "../services/users.service";
 import { CustomRequest } from "../../../types/requests";
 import { UserDto } from "../types/user.dto";
+import sanitize from "@src/shared/sanitize";
 
 export type UsersController = {
   getAll(req: Request, res: Response): void;
