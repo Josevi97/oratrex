@@ -1,6 +1,13 @@
 const allowedChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-const input = (input: string) => input.split('').filter(c => allowedChars.includes(c) || c === ' ').join('').trim();
+const input = (input: string) => {
+  return input
+    .split('')
+    .filter(c => allowedChars.includes(c) || c === ' ')
+    .join('')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
 
 const array = (arr: Array<unknown>): Array<unknown> => arr.map(value => fromUnknown(value));
 
