@@ -41,7 +41,8 @@ const apiService = (): ApiService => {
           ...config,
           headers: {
             'Content-Type': 'application/json',
-            'CSRF-Token': csrfService.loadCsrf()?.csrfToken,
+            // FIXME: This is not working as expected
+            'X-CSRF-TOKEN': csrfService.loadCsrf()?.csrfToken,
             ...config?.headers,
           },
         })

@@ -11,7 +11,7 @@ const router = express.Router();
 
 // csrf
 router.get('/csrf', (req, res) => {
-  const cookie = req.csrfToken();
+  // const cookie = req.csrfToken();
 
   // res.cookie('_csrf', cookie, {
   //   httpOnly: true,
@@ -19,7 +19,7 @@ router.get('/csrf', (req, res) => {
   //   sameSite: 'none',
   // })
 
-  res.status(200).json({ data: { csrfToken: cookie } });
+  // res.status(200).json({ data: { csrfToken: cookie } });
   res.end();
 });
 

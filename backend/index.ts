@@ -10,8 +10,9 @@ import { SERVER_PORT } from './src/config';
 import router from './router';
 import database from "./src/database";
 
-const csrfProtection = csrf({ cookie: true });
 export const app = express();
+
+const csrfProtection = csrf({ cookie: true });
 
 database.authenticate()
   .then(() => console.log('Database connected successful.'))
@@ -22,11 +23,10 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(cookieParser());
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-app.use(csrfProtection);
 app.use('/api', router);
 
 app.listen(SERVER_PORT, () => {

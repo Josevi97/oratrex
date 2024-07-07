@@ -10,7 +10,9 @@ type CsrfService = {
 
 const csrfService = (): CsrfService => {
   const saveCsrf = (csrf: Csrf): void => {
-    cookiesService.saveCookie(cookieKey, csrf, null);
+    // TODO: Cookies service responsible. However, I was testing
+    // the csrf implementation
+    document.cookie = `${cookieKey}=${encodeURIComponent(JSON.stringify(csrf))};Secure;SameSite=None`;
   };
 
   const loadCsrf = (): Csrf | null => cookiesService.getCookie<Csrf>(cookieKey);
