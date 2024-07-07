@@ -11,10 +11,15 @@ const router = express.Router();
 
 // csrf
 router.get('/csrf', (req, res) => {
-  // const date = new Date();
-  // date.setDate(date.getDate() + 15);
+  const cookie = req.csrfToken();
 
-  // res.status(200).json({ data: { csrfToken: req.csrfToken(), expiresAt: date } });
+  // res.cookie('_csrf', cookie, {
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: 'none',
+  // })
+
+  res.status(200).json({ data: { csrfToken: cookie } });
   res.end();
 });
 

@@ -99,7 +99,7 @@ const reducer = (state: State, action: Action): State => {
 };
 
 type LoginFormProps = {
-  onSubmit(username: string, password: string): Promise<boolean>;
+  onSubmit?(username: string, password: string): Promise<boolean>;
 };
 
 const LoginForm = (props: LoginFormProps) => {
@@ -117,7 +117,7 @@ const LoginForm = (props: LoginFormProps) => {
     e.preventDefault();
     dispatch({ type: 'loading' });
 
-    props.onSubmit(state.username, state.password).catch(() => {
+    props.onSubmit?.(state.username, state.password).catch(() => {
       dispatch({ type: 'error' });
     });
   };

@@ -21,6 +21,6 @@ Cada funcionalidad de la aplicación se divide en features, salvo aquellas estri
 y el sistema para el CSRF
 
 ## Patterns
-He hecho uso de los componentes "Guards", los cuales son los encargados de permitirme entrar o no a una vista en concreto.
+He hecho uso de los componentes "Guards", los cuales son los encargados de permitir entrar o no a una vista en concreto.
 
 ## Tests

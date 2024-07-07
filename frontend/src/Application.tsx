@@ -6,13 +6,14 @@ import AuthProvider from './features/authentication/providers/AuthProvider';
 import UserPage from './pages/UserPage/UserPage';
 import HomePage from './pages/HomePage/HomePage';
 import Layout from './shared/Layout/Layout';
+import CsrfGuard from './core/api/guards/CsrfGuard';
 
 const Application = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          <Route>
+          <Route element={<CsrfGuard />}>
             <Route element={<Layout />}>
               <Route element={<AuthGuard />}>
                 <Route path="/user" element={<UserPage />} />

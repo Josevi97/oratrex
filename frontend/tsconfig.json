@@ -1,14 +1,19 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ],
   "compilerOptions": {
-    "baseUrl": ".",
-  }
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["dom", "es2015"],
+    "jsx": "react-jsx",  // or "react" if using older React versions
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/core": ["src/core"]
+    }
+  },
+  "include": ["src"]
 }

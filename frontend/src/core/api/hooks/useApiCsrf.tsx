@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import useApiGet from './useApiGet';
 import { Csrf } from '../../csrf/types/csrf';
+import { useEffect } from 'react';
 import csrfService from '../../csrf/services/csrf.service';
 
 const useApiCsrf = () => {

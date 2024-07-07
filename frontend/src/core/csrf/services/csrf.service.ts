@@ -10,7 +10,7 @@ type CsrfService = {
 
 const csrfService = (): CsrfService => {
   const saveCsrf = (csrf: Csrf): void => {
-    cookiesService.saveCookie(cookieKey, csrf, new Date(csrf.expiresAt));
+    cookiesService.saveCookie(cookieKey, csrf, null);
   };
 
   const loadCsrf = (): Csrf | null => cookiesService.getCookie<Csrf>(cookieKey);

@@ -1,12 +1,16 @@
 type CookiesService = {
-  saveCookie(key: string, value: unknown, expiresAt: Date): void;
+  saveCookie(key: string, value: unknown, expiresAt: Date | null): void;
   getCookies(): { [key: string]: string } | null;
   getCookie<T>(key: string): T | null;
 };
 
 const cookiesService = (): CookiesService => {
-  const saveCookie = (key: string, value: unknown, expiresAt: Date) => {
-    document.cookie = `${key}=${encodeURIComponent(JSON.stringify(value))};expires=${expiresAt}`;
+  const saveCookie = (key: string, value: unknown, expiresAt: Date | null) => {
+    if (expiresAt) {
+      document.cookie = `${key}=${encodeURIComponent(JSON.stringify(value))};expires=${expiresAt}`;
+    } else {
+      document.cookie = `${key}=${encodeURIComponent(JSON.stringify(value))}`;
+    }
   };
 
   const getCookies = (): { [key: string]: string } | null => {
