@@ -2,6 +2,7 @@ import { useReducer } from 'react';
 import LoginFormErrors from './LoginFormErrors/LoginFormErrors';
 
 import styles from './LoginForm.module.scss';
+import WarningModal from '@/styles/ui/Modal/WarningModal/WarningModal';
 
 const username = 'kathleen34';
 const password = 'aaa2848c13da';
@@ -17,6 +18,9 @@ type State = {
 };
 
 type Action =
+  | {
+      type: 'reset';
+    }
   | {
       type: 'username';
       payload: { username: string };
@@ -44,6 +48,11 @@ const initialState: State = {
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'reset':
+      return {
+        ...state,
+        hasError: false,
+      };
     case 'loading':
       return {
         ...state,
@@ -105,6 +114,10 @@ type LoginFormProps = {
 const LoginForm = (props: LoginFormProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const onModalAccept = () => {
+    dispatch({ type: 'reset' });
+  };
+
   const updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'username', payload: { username: e.target.value } });
   };
@@ -158,6 +171,12 @@ const LoginForm = (props: LoginFormProps) => {
           }
         />
       </div>
+      <WarningModal
+        isOpen={state.hasError}
+        header="Ha ocurrido un error"
+        onRequestClose={onModalAccept}
+        message="Usuario o contraseña incorrectos. Por favor, intentelo de nuevo o revise sus credenciales"
+      />
     </form>
   );
 };
