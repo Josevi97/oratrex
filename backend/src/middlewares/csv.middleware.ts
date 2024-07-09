@@ -13,21 +13,23 @@ const processCsv = (headers: Header, processed: string) => {
 
   if (content.length <= 0) return [];
 
-  const header = content[0].split(';').map(h => h.toLowerCase());
+  const header = content[0].split(';').map(h => h.toLowerCase().trim());
   const body = content.slice(1).map(data => data.split(';'));
 
-  return body
-    .map(data => {
-      const d = data.map((d: string, i: number) => {
-        const _header = header[i].trim();
-        const finalHeader = headers[_header]?.trim().toLowerCase();
+  if (Object.keys(headers).some(h => !header.includes(h))) {
+    return null;
+  }
 
-        return [finalHeader, d];
-      });
+  return body.map(data => {
+    const d = data.map((d: string, i: number) => {
+      const _header = header[i];
+      const finalHeader = headers[_header]?.trim().toLowerCase();
 
-      return Object.fromEntries(d);
-    })
-    .filter(data => Object.keys(data).every(key => key != 'undefined'));
+      return [finalHeader, d];
+    });
+
+    return Object.fromEntries(d);
+  });
 }
 
 const csvMiddleware = <T>(headers: Header) => {
@@ -46,13 +48,24 @@ const csvMiddleware = <T>(headers: Header) => {
       const processed = req.file.buffer.toString('utf-8');
       const fileContent = processCsv(headers, processed);
 
-      if (!fileContent.length) {
-        console.warn('Empty file provided', error);
+      if (!fileContent) {
+        console.error('Bad request');
+        res.status(400).json({ error: 'Bad request'});
+        res.end();
+
+        return;
+      }
+
+      if (!fileContent!.length) {
+        console.warn('Empty file provided');
         res.status(201);
+        res.end();
+
+        return;
       }
 
       console.log('Csv loaded successfully');
-      req.fileContent = fileContent;
+      req.fileContent = fileContent!;
 
       next();
     });
